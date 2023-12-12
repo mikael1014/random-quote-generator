@@ -10,13 +10,18 @@ function quoteGenerator(){
                 document.getElementById("quote").innerHTML = data[randomNumber].text;
                 document.getElementById("author").innerHTML = data[randomNumber].author;
 
-                //automatically copies quotes to clipboard
                 var text = data[randomNumber].text;
-                navigator.clipboard.writeText(text).then(function() {
-                    alert("Copied to clipboard");
-                }, function(err) {
-                    console.error('Async: Could not copy text: ', err);
-                });
+
+                // Vérifier si navigator.clipboard.writeText est disponible
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(function() {
+                        alert("Copied to clipboard");
+                    }, function(err) {
+                        console.error('Async: Could not copy text: ', err);
+                    });
+                } else {
+                    console.warn('Copying to clipboard is not supported in this environment.');
+                }
             } else {
                 console.error('Quote at index ' + randomNumber + ' is undefined');
             }
